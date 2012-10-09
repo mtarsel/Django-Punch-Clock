@@ -1,0 +1,9 @@
+*.pyc
+settings.py
+*.json
+*~
+django
+media/temp
+*.swp
+*.sqlite3
+*.kdev4
