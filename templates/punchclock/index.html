@@ -4,20 +4,21 @@
 <h1><center>TimeCardKnight</center></h1>
 
 
-<h2>Student Number:</h2>
-{% if user_list %}
-    <ul>
-    {% for user in user_list %}
-        <p>{{ user.last_name }}</p>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No users are available.</p>
-{% endif %}
+<form action="login_form.asp">
+	Student Number: <input type ="text" size="7"><br>
+	
+	Department:<br> 
+  	<div>
+		<select name="department">
+		<ul>
+    			{% for user in department_list %}
+        			<option> {{ user.department }}</option>
+    			{% endfor %}
+    		</ul>
+		</select>
+	</div>
+</form>
 
-<h2>Department</h2>
-
-
-
+<input type="submit" value="Clock In"> <input type="submit" value="Clock Out">
 </body>
 </html>
