@@ -22,7 +22,6 @@ class User(models.Model):
 	last_name = models.CharField(max_length=512)
 	pay_rate = models.FloatField()
 	start_date = models.DateField()
-	#end_date = models.DateField()
 	amount_paid = models.FloatField()
 	department = models.ForeignKey(Department)
 	account = models.ForeignKey(Account)
@@ -31,21 +30,22 @@ class User(models.Model):
 		return unicode(self.last_name) + ', ' + unicode(self.first_name) + ':' + unicode(self.number) + ' $' + unicode(self.pay_rate)
 	
 
-#class UserAccount(models.Model):
-#	user = models.ForeignKey(User)
-#	account = models.ForeignKey(Account)
-#	start_date = models.DateField()
-#	end_date = models.DateField()
-#	amount = models.FloatField()
-#	priority = models.IntegerField()
+class UserAccount(models.Model):
+	user = models.ForeignKey(User)
+	account = models.ForeignKey(Account)
+	start_date = models.DateField()
+	end_date = models.DateField()
+	amount = models.FloatField()
+	priority = models.IntegerField()
 	
-#	def __unicode__(self):
-#		return unicode(self.user)
+	def __unicode__(self):
+		return unicode(self.user)
 
 	
 class ClockEvent(models.Model):
 	user = models.ForeignKey(User)
 	department = models.ForeignKey(Department)
+	account = models.ForeignKey(Account)
 	in_time = models.DateTimeField()
 	out_time = models.DateTimeField()
 	pay_rate = models.FloatField()
@@ -80,13 +80,18 @@ class ClockEvent(models.Model):
 		return True
 		#make sure in time and out time are defined
 		
-	def hours(self):
+	def hours(account, self):
 		td = self.out_time - self.in_time
-		
-		return float(td.total_seconds()/3600)
+		return float(td.total_seconds()/3600)	
 		
 	def amount_payed(self):
 		return self.pay_rate * self.hours()
+	
+	def account_manage(amount_payed, account, self):
+		self.account = account
+		self.amount_payed = amount_payed
+		return self.amount_payed - self.account
 		
+	
 	def __unicode__(self):
 		return unicode(self.last_name) + ', ' + unicode(self.first_name) + ':' + unicode(self.number)

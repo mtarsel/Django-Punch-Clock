@@ -5,7 +5,8 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-     url(r'^index/$', 'punchclock.views.index', name='index'),
+     url(r'^manage/$', 'management.views.manage', name='manage'),
+	 url(r'^index/$', 'punchclock.views.index', name='index'),
      url(r'^punchclock/$', 'punchclock.views.index', name='index'),
      #url(r'^index','views.home'),
      #url(r'^sitemap\.xml','views.sitemap'),

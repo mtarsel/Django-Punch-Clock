@@ -1,0 +1,11 @@
+<html>
+<body>
+ <title>Welcome!</title>
+<h1><center>TimeCardKnight Management Page</center></h1>
+
+<!--THIS NEEDS AN AUTHORIZATION PAGE -->
+	{% for user in user_list%}
+		<p>{{user.account}}</p>
+	{% endfor %}
+</body>
+</html>
