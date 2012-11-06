@@ -1,24 +1,42 @@
-<html>
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<h1><center>TimeCardKnight Student</center></h1>
+
+<head>
+<title>Log in</title>
+
+</head>
 <body>
- <title>Welcome!</title>
-<h1><center>TimeCardKnight</center></h1>
-
-
-<form action="login_form.asp">
-	Student Number: <input type ="text" size="7"><br>
-	
-	Department:<br> 
-  	<div>
+	{{ state }}
+	<form action="/clockin/" method="post">
+	{% csrf_token %}
+		{% if next %}
+		<input type="hidden" name="next" value="{{ next }}" />
+		{% endif %}
+		
+		Student Number:
+		<input type="text" name="username" value="{{ number}}" /><br />
+		
+		Department:
 		<select name="department">
-		<ul>
-    			{% for user in department_list %}
-        			<option> {{ user.department }}</option>
-    			{% endfor %}
-    		</ul>
-		</select>
-	</div>
-</form>
+			<ul>
+				{% for user in department_list %}
+					<option> {{ user.department }}</option>
+				{% endfor %}
+			</ul>
+		</select></br>
+		
+<!-- 		<input type="password" name="password" value="" /><br /> -->
 
-<input type="submit" value="Clock In"> <input type="submit" value="Clock Out">
+		<input type="submit" value="Clock In" />
+	</form>
 </body>
-</html>
+
+ <!-- {% if(User.clockIn is True):
+	#	script = "<script>alert('%s is now Clocked In')</script>" % User.first_name-->
+
+
+{% endblock %}

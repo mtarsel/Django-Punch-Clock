@@ -6,18 +6,20 @@ class Account(models.Model):
 	name = models.CharField(max_length=512)
 	number = models.CharField(max_length=512)
 	priority = models.IntegerField()
+	total = models.IntegerField()
 	
 	def __unicode__(self):
 		return unicode(self.name)
 		
 class Department(models.Model):
 	name = models.CharField(max_length=512)
+	#students can have 2 departments with same payrate
 	
 	def __unicode__(self):
 		return unicode(self.name)
 
 class User(models.Model):
-	number = models.IntegerField()
+	number = models.IntegerField(max_length=8)
 	first_name = models.CharField(max_length=512)
 	last_name = models.CharField(max_length=512)
 	pay_rate = models.FloatField()
@@ -25,6 +27,8 @@ class User(models.Model):
 	amount_paid = models.FloatField()
 	department = models.ForeignKey(Department)
 	account = models.ForeignKey(Account)
+	
+	#if they work for one year, increase pay by $0.25
 	
 	def __unicode__(self):
 		return unicode(self.last_name) + ', ' + unicode(self.first_name) + ':' + unicode(self.number) + ' $' + unicode(self.pay_rate)

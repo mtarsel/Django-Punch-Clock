@@ -1,9 +1,32 @@
 from django.template import Context, loader
-from punchclock.models import *
-from management.models import *
-#from django.http import HttpResponse
 from django.shortcuts import render_to_response
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+from django.core.context_processors import csrf
 
+
+@login_required
+def login_user(request):
+	c ={}
+	c.update(csrf(request))
+	username = password = ''
+	if request.POST:
+		username = request.POST.get('username')
+		password = request.POST.get('password')
+
+		user = authenticate(username=username, password=password)
+		
+		if user is not None:
+			if user.is_active:
+				login(request, user)
+				state = "You're successfully logged in!"
+			else:
+				state = "Your account is not active, please contact the site admin."
+		else:
+			state = "Your username and/or password were incorrect."
+
+	return render_to_response('management/manage.html',{'state':state, 'username': username})
+
+@login_required	
 def manage(request):
-    user_list = UserAccountManagment.objects.all().order_by('-user_account')[:5]
-    return render_to_response('management/manage.html', {'user_list': user_list})
+	return render_to_response('management/manage.html')
