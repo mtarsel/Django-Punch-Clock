@@ -6,7 +6,7 @@ from django.core.context_processors import csrf
 
 
 @login_required
-def login_user(request):
+def manage(request):
 	c ={}
 	c.update(csrf(request))
 	username = password = ''
@@ -26,7 +26,3 @@ def login_user(request):
 			state = "Your username and/or password were incorrect."
 
 	return render_to_response('management/manage.html',{'state':state, 'username': username})
-
-@login_required	
-def manage(request):
-	return render_to_response('management/manage.html')

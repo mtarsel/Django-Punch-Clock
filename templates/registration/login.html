@@ -6,7 +6,7 @@
 <h1><center> Manager Log in</center></h1>
 </head>
 <body>
-	<!--{{ state }}-->
+	{{ state }}
 	<form action="/manage/" method="post">
 	{% csrf_token %}
 		{% if next %}
