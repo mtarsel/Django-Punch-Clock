@@ -10,7 +10,7 @@ urlpatterns = patterns('',
 
      #url(r'^punchclock/$', 'punchclock.views.index', name='index'),
      #url(r'^login/$', 'auth.views.login_user'),
+     
      url(r'^manage_login/$', 'django.contrib.auth.views.login',name="login_user"),
-     #url(r'^punchclock/clockin/$', 'punchclock.views.clockIn', name='clockIn'),
      url(r'^admin/', include(admin.site.urls)),
 )
