@@ -11,7 +11,7 @@
 </head>
 <body>
 	{{ state }}
-	<form action="/clockin/" method="post">
+	<form method="post">
 	{% csrf_token %}
 		{% if next %}
 		<input type="hidden" name="next" value="{{ next }}" />
@@ -19,9 +19,6 @@
 		
 		Student Number:
 		<input type="text" name="username" value="{{ number}}" /><br />
-		
-		Password:
-		<input type="password" name="password" value="{{ password }}" /><br />
 		
 		Department:
 		<select name="department">
@@ -31,8 +28,8 @@
 				{% endfor %}
 			</ul>
 		</select></br>
-		
-		<input type="submit" value="Clock In" />
+		<input type="submit" value="Clock In" onclick="this.form.action='/clockin/'"/>
+		<input type="submit" value="Clock Out" onclick="this.form.action='/clockout/'"/>
 	</form>
 </body>
 

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<h2> Error! </h2>
+
+You are receiving this error because: </br>
+	{{ state }}</br>
+Are you {{username}}?	
+
+<a href = "/manage_login"> Try Again? </a>
+
+{% endblock %}
