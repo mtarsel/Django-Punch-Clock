@@ -8,6 +8,13 @@ Logged in as manager.</br>
 
 Welcome, {{username}}.
 
+    <div class="container">
+
+<!-- THIS VIEW SHOULD NOT BE A VALID URL!!!! --> 
+      <form action="/reports/" method="get">
+        {% csrf_token %}        
+        <button class="btn btn-large btn-primary" type="submit">Reports</button> </br>
+       </form>
 
 {% endblock %}
 

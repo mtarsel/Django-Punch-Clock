@@ -6,11 +6,8 @@ admin.autodiscover()
 urlpatterns = patterns('',
      url(r'^$', 'punchclock.views.index', name='index'),
      url(r'^manage/$', 'management.views.manage', name='manage'),
+     url(r'^reports/$', 'management.views.reports', name='reports'),
      url(r'^clockin/$', 'punchclock.views.clockin', name='clockin'),
-
-     #url(r'^punchclock/$', 'punchclock.views.index', name='index'),
-     #url(r'^login/$', 'auth.views.login_user'),
-     
      url(r'^manage_login/$', 'django.contrib.auth.views.login',name="login_user"),
      url(r'^admin/', include(admin.site.urls)),
 )
