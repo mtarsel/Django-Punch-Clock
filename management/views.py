@@ -119,19 +119,6 @@ def timecards(request):
 	p.drawString(310, 598, 'Dept. Head Signature')
 	
 	p.rect(5, 590, 580, 220, stroke=1, fill=0)
-
-	
-	#elements = []
-
-	#data= [['00', '01', '02', '03', '04'],
-		#['10', '11', '12', '13', '14'],
-		#['20', '21', '22', '23', '24'],
-		#['30', '31', '32', '33', '34']]
-	#t=Table(data,5*[0.4*inch], 4*[0.4*inch])
-	
-	#elements.append(t)
-
-	#p.save(elements)
 	
 	p.drawString(100, 100, "Hello world.")
 
@@ -156,6 +143,8 @@ def reports(request):
 
     # Create the PDF object, using the BytesIO object as its "file."
 
+    
+    #MAKE THIS A TABLE!!!!!
 	p = canvas.Canvas(buffer)
 
 	p.drawString(30,775,'Account Number')
@@ -165,9 +154,6 @@ def reports(request):
 	p.drawString(200,778, 'Remaining Balance')
 	
 	p.drawString(360, 778, 'Spent this semester')
-
-
-
 	
 	p.drawString(50, 50, "Generated on: DATE")#place the date here!!!
 
