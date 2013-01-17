@@ -29,8 +29,8 @@ class User(models.Model):
 	pay_rate = models.FloatField()
 	start_date = models.DateField()
 	amount_paid = models.FloatField()
-	department = models.ForeignKey(Department)
-	account = models.ForeignKey(Account)
+	department = models.ForeignKey(Department)#user can have multiple departments
+	account = models.ForeignKey(Account)#can have multiple accounts
 	
 	#if they work for one year, increase pay by $0.25
 	
@@ -49,9 +49,7 @@ class ClockEvent(models.Model):
 		
 		if not self.in_time == None:
 			return
-		#users = User.object.filter(number=int(number))
-		#if not len(users) > 0:
-			#raise Http404
+
 		self.pay_rate = user.pay_rate
 		self.department = department
 		self.user = user
@@ -62,7 +60,7 @@ class ClockEvent(models.Model):
 	def clockOut(self, user, department):
 		
 		if not self.out_time == None and not self.in_time == None:
-			print 'Error!'
+			print 'Error!'#debug
 			return
 		self.user = user
 		self.pay_rate = user.pay_rate

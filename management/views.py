@@ -23,8 +23,7 @@ def logout_user(request):
 		logout(request)
 		return HttpResponseRedirect('/manage/')
 
-
-#@login_required(login_url= '/manage_login/')
+#DOES NOT WORK. STATE IS SKETCHY
 def login_user(request):
 	to_pass = {}
 	to_pass.update(csrf(request))
@@ -40,7 +39,7 @@ def login_user(request):
 			if user.is_active:
 				login(request, user)
 				state = "You're successfully logged in!"
-				return HttpResponseRedirect('management/manage.html',{'state':state, 'username': username})
+				return render_to_response('management/manage.html',{'state':state, 'username': username})
 			else:
 				state = "Your account is not active, please contact the site admin."
 		else:
@@ -50,28 +49,25 @@ def login_user(request):
 	else:		
 		to_pass.update()
 		return render_to_response('manage_login', to_pass, {'state':state, 'username': username})
-		
 
+		
+#@login_required(login_url= '/manage_login/')
 def manage(request):
-	#if not request.user.is_authenticated( ):
-		#return HttpResponseRedirect( '/manage_login/')
-	#else:
+	if not request.user.is_authenticated( ):#DOES NOT WORK, STILL ALLOWS USER ENTRY
+		return HttpResponseRedirect( '/manage_login/')
+	else:
 		students = User.objects.all()
 		departments = Department.objects.all()
 		return render_to_response('management/manage.html')
 	
 
 def timecards(request):
-	#if not request.user.is_authenticated():
-	#	raise Http404
+	if not request.user.is_authenticated():
+		raise Http404
 	
 	# Create the HttpResponse object with the appropriate PDF headers.
 	response = HttpResponse(mimetype='application/pdf')
 	response['Content-Disposition'] = 'attachment; filename="timecards.pdf"'
-	
-	#User.objects.all()
-	
-	#for user in user
 
 	buffer = BytesIO()
     # Create the PDF object, using the BytesIO object as its "file."

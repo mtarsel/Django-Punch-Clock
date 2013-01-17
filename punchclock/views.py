@@ -17,7 +17,7 @@ def clockin( request ):
 			return render_to_response( 'punchclock/clockin.html' )
 		else:
 			print 'Error!'
-			raise Http404
+			raise Http404#keep these?
 			#to_add = { }
 			#to_add.update( { 'form': form } )
 			#return render_to_response( 'punchclock/index.html', to_add )
@@ -28,40 +28,6 @@ def clockin( request ):
 		form = IndexForm( )
 		to_add.update( { 'form': form } )
 		return render_to_response( 'punchclock/index.html', to_add )
-
-
-
-#def index(request):
-	#department_list = User.objects.all().order_by('-department')[:13]
-	
-	#c = {'department_list': department_list}
-	##c.update(csrf(request))
-	
-	##clockin = ClockEvent()
-	##number = User.objects.number()
-	##department = User.objects.department()
-	
-	##clockin.clockIn(number,department)
-	
-	#return render_to_response('punchclock/index.html', {'department_list': department_list}, context_instance=RequestContext(request)) 
-
-#def clockin(request):
-
-	#department_list = User.objects.all().order_by('-department')[:13]
-	
-	#c = {'department_list': department_list}
-
-	#c = {'department_list': department_list}
-	
-	##user_number = User.number#'Manager' object has no attribute 'number'
-	##department = User.objects.department
-	
-	##clockin = ClockEvent.objects.ClockIn(user_number, department)
-	
-	##c.update(csrf(request))
-
-	#return render_to_response('punchclock/clockin.html', {'department_list': department_list}, c)	
-	
 	
 def clockout(request):
 	if request.method == 'POST':
