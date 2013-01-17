@@ -20,6 +20,11 @@ Welcome, {{username}}.
         {% csrf_token %}        
         <button class="btn btn-large btn-primary" type="submit">Generate Reports</button> </br>
        </form>
+       
 
+       <form action="/logout/" method="post">
+       <button class="btn btn-large btn-primary" type="submit">Logout</button> </br>
+		</form>
+       
 {% endblock %}
 

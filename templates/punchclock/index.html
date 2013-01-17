@@ -12,24 +12,13 @@
 <body>
 	{{ state }}
 	<form method="post">
-	{% csrf_token %}
-		{% if next %}
-		<input type="hidden" name="next" value="{{ next }}" />
-		{% endif %}
-		
-		Student Number:
-		<input type="text" name="username" value="{{ number}}" /><br />
-		
-		Department:
-		<select name="department">
-			<ul>
-				{% for user in department_list %}
-					<option> {{ user.department }}</option>
-				{% endfor %}
-			</ul>
-		</select></br>
-		<input type="submit" value="Clock In" onclick="this.form.action='/clockin/'"/>
-		<input type="submit" value="Clock Out" onclick="this.form.action='/clockout/'"/>
+		{% csrf_token %}
+		{% for field in form %}
+			{{ field.errors }}
+			{{ field.label_tag }}: {{ field }}</br>
+		{% endfor %}
+		<input type="submit" value="Clock In"onclick="this.form.action='/clockin/'"/>
+		<input type="submit" value="Clock Out"onclick="this.form.action='/clockout/'"/>
 	</form>
 </body>
 

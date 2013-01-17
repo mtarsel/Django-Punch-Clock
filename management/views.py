@@ -1,9 +1,10 @@
 from django.template import Context, loader
 from django.shortcuts import render_to_response, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.context_processors import csrf
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponseRedirect
+from punchclock.models import *
 
 #from django.views.decorators.csrf import csrf_exempt
 
@@ -18,11 +19,15 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 #sudo apt-get install python-pip
 #sudo pip install reportlab
 
+def logout_user(request):
+		logout(request)
+		return HttpResponseRedirect('/manage/')
 
-@login_required(login_url= '/manage_login/')
-def manage(request):
-	c ={}
-	c.update(csrf(request))
+
+#@login_required(login_url= '/manage_login/')
+def login_user(request):
+	to_pass = {}
+	to_pass.update(csrf(request))
 	username = password = ''
 	
 	if request.POST:
@@ -35,23 +40,38 @@ def manage(request):
 			if user.is_active:
 				login(request, user)
 				state = "You're successfully logged in!"
-				return render_to_response('management/manage.html',{'state':state, 'username': username})
+				return HttpResponseRedirect('management/manage.html',{'state':state, 'username': username})
 			else:
 				state = "Your account is not active, please contact the site admin."
 		else:
 			state = "Incorrect Username or Password."
 			#raise Http404
-			return render_to_response('404.html', {'state':state, 'username':username})
-			
+			return render_to_response('/manage_login/', to_pass, {'state':state, 'username':username})
+	else:		
+		to_pass.update()
+		return render_to_response('manage_login', to_pass, {'state':state, 'username': username})
 		
-	return render_to_response('management/manage.html',{'state':state, 'username': username})
 
+def manage(request):
+	#if not request.user.is_authenticated( ):
+		#return HttpResponseRedirect( '/manage_login/')
+	#else:
+		students = User.objects.all()
+		departments = Department.objects.all()
+		return render_to_response('management/manage.html')
+	
 
-@login_required(login_url= '/manage_login/')
 def timecards(request):
+	#if not request.user.is_authenticated():
+	#	raise Http404
+	
 	# Create the HttpResponse object with the appropriate PDF headers.
 	response = HttpResponse(mimetype='application/pdf')
 	response['Content-Disposition'] = 'attachment; filename="timecards.pdf"'
+	
+	#User.objects.all()
+	
+	#for user in user
 
 	buffer = BytesIO()
     # Create the PDF object, using the BytesIO object as its "file."
@@ -72,7 +92,7 @@ def timecards(request):
 	p.drawString(55,762,'For Clarkson Students')
 	p.drawString(95,750, 'use only')
 
-	p.drawString(500,783, '12345')#make this the student numbers
+	#p.drawString(500,783, str(User.number))#make this the student numbers
 	p.line(480,780,580,780)
 	p.drawString(500,773,'Student No.')#770-755
 
@@ -133,8 +153,10 @@ def timecards(request):
 	return response
 
 
-@login_required(login_url= '/manage_login/')
 def reports(request):
+	if not request.user.is_authenticated():
+		raise Http404	
+	
 	# Create the HttpResponse object with the appropriate PDF headers.
 	response = HttpResponse(mimetype='application/pdf')
 	response['Content-Disposition'] = 'attachment; filename="reports.pdf"'
@@ -151,10 +173,9 @@ def reports(request):
 	p.drawString(30,735,'12345678')
 
 	
-	p.drawString(200,778, 'Remaining Balance')
+	p.drawString(200,778, 'Total')
 	
-	p.drawString(360, 778, 'Spent this semester')
-	
+	p.drawString(360, 778, 'Remaining Balance')
 	p.drawString(50, 50, "Generated on: DATE")#place the date here!!!
 
     # Close the PDF object cleanly.
