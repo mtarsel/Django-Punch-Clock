@@ -6,7 +6,7 @@ from punchclock.models import *
 from django.template import RequestContext
 
 
-def clockin( request ):
+def clockIn( request ):
 	if request.method == 'POST':
 		form = IndexForm( request.POST )
 		if form.is_valid( ):
@@ -17,8 +17,8 @@ def clockin( request ):
 			clock_event = ClockEvent( )
 			clock_event.clockIn( user, department )	
 			
-			if clock_event.clockIn( user, department ) is False:
-				return render_to_response( '404.html')
+		#	if clock_event.clock_in_out( user, department ) is False:
+		#		return render_to_response( '404.html')
 
 			return render_to_response( 'punchclock/clockin.html', { 'first_name':user.first_name, 'last_name':user.last_name} )
 		else:
@@ -33,7 +33,7 @@ def clockin( request ):
 		to_add.update( { 'form': form } )
 		return render_to_response( 'punchclock/index.html', to_add )
 	
-def clockout(request):
+def clockOut(request):
 	if request.method == 'POST':
 		form = IndexForm( request.POST )
 		if form.is_valid( ):

@@ -136,8 +136,40 @@ class ClockEvent(models.Model):
 	pay_rate = models.FloatField()
 	#timecard = models.ForeignKey(Timecard)
 	
-	def clockIn(self, user, department):
+	#def clock_in_out(self, user, department):
 		
+		#self.user = user
+		#self.pay_rate = user.pay_rate
+		#self.department = department
+		
+		#print 'debug::: in_time'
+		#print self.in_time
+
+		#if self.in_time is not None and self.out_time is None:
+			#self.out_time = timezone.now()
+			#print 'oOOut_time:'
+			#print self.out_time
+			#self.save()
+			#return
+			
+		#if self.in_time is None and self.out_time is not None:
+			#print 'forgot to clock in!'
+			#return False
+			
+		#if self.in_time is None:
+			#self.in_time = timezone.now()
+			#print 'in time:'
+			#print self.in_time
+			#print 'out time'
+			#print self.out_time
+			#self.save()
+			#return
+	
+		#self.save()
+		#return 
+		
+	def clockIn(self, user, department):
+
 		if not self.in_time == None:
 			return
 
@@ -148,9 +180,10 @@ class ClockEvent(models.Model):
 		self.save()
 		return #self.in_time
 		
+		
 	def clockOut(self, user, department):
 		
-		if not self.out_time == None and not self.in_time == None:
+		if not self.out_time is None and not self.in_time == None:
 			return 
 		
 		if self.in_time is None:
@@ -208,6 +241,7 @@ DEPARTMENT_CHOICES = (
 class Index( models.Model ):
     student_number = models.IntegerField( max_length=8 )
     department = models.CharField( max_length=40, choices=DEPARTMENT_CHOICES )
+   # in_time = models.DateField()
 
 class IndexForm( ModelForm ):
 	class Meta:

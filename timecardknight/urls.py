@@ -4,9 +4,9 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-     url(r'^$', 'punchclock.views.clockin', name='index'),
-     url(r'^clockin/$', 'punchclock.views.clockin', name='clockin'),
-     url(r'^clockout/$', 'punchclock.views.clockout', name='clockout'),
+     url(r'^$', 'punchclock.views.clockIn', name='index'),
+     url(r'^clockin/$', 'punchclock.views.clockIn', name='clockIn'),
+     url(r'^clockout/$', 'punchclock.views.clockOut', name='clockOut'),
      
      url(r'^manage_login/$', 'django.contrib.auth.views.login', name="login_user"),
      url(r'^manage/$', 'management.views.manage', name='manage'),
