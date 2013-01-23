@@ -24,10 +24,10 @@ def clockIn( request ):
 		else:
 			to_add = { }
 			to_add.update( { 'form': form } )
+			print 'Error! user didnt enter a field and hit clock in'
 			return render_to_response( '404.html', to_add )
 			
 	else:
-		print 'Error! user didnt enter a field and hit clock in'
 		to_add = { }
 		to_add.update( csrf( request ) )
 		form = IndexForm()
