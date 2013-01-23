@@ -27,6 +27,7 @@ def clockIn( request ):
 			return render_to_response( '404.html', to_add )
 			
 	else:
+		print 'Error! user didnt enter a field and hit clock in'
 		to_add = { }
 		to_add.update( csrf( request ) )
 		form = IndexForm( )
@@ -44,7 +45,7 @@ def clockOut(request):
 			clock_out.clockOut( user, department )
 			return render_to_response( 'punchclock/clockout.html', {'first_name': user.first_name, 'last_name':user.last_name} )
 		else:
-			print 'Error!'
+			print 'Error! User didnt enter a field and hit clock out'
 			to_add = { }
 			to_add.update( { 'form': form } )
 			to_add.update( csrf( request ) )
