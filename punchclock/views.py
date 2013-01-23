@@ -14,8 +14,8 @@ def clockIn( request ):
 			user = User.objects.get( number=instance.student_number )
 			#name = User.objects.get( name=instance.last_name )
 			department = Department.objects.get( name=instance.department )
-			clock_event = ClockEvent( )
-			clock_event.clockIn( user, department )	
+			clock_in = ClockIn( )
+			clock_in.clockIn( user, department )	
 			
 		#	if clock_event.clock_in_out( user, department ) is False:
 		#		return render_to_response( '404.html')
@@ -40,8 +40,8 @@ def clockOut(request):
 			instance = form.save( commit=False )
 			user = User.objects.get( number=instance.student_number )
 			department = Department.objects.get( name=instance.department )
-			clock_event = ClockEvent( )
-			clock_event.clockOut( user, department )
+			clock_out = ClockOut( )
+			clock_out.clockOut( user, department )
 			return render_to_response( 'punchclock/clockout.html', {'first_name': user.first_name, 'last_name':user.last_name} )
 		else:
 			print 'Error!'

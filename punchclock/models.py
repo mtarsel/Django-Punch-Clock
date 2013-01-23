@@ -32,6 +32,11 @@ class User(models.Model):
 	department = models.ForeignKey(Department)#user can have multiple departments
 	account = models.ForeignKey(Account)#can have multiple accounts
 	
+	in_time = models.DateField(null = True, blank = True)
+	is_in = models.BooleanField(False)
+	
+	out_time = models.DateField(null = True)
+	is_out = models.BooleanField(False)
 	#if they work for one year, increase pay by $0.25
 	
 	def __unicode__(self):
@@ -127,81 +132,78 @@ class Timecard(models.Model):
 
 #class Report(models.Model):
 
-class ClockEvent(models.Model):
+class ClockIn(models.Model):
 	user = models.ForeignKey(User)
 	department = models.ForeignKey(Department)
 	account = models.ForeignKey(Account, null=True, blank=True)
-	in_time = models.DateTimeField( null=True, blank=True )
-	out_time = models.DateTimeField( null=True, blank=True )
-	pay_rate = models.FloatField()
-	#timecard = models.ForeignKey(Timecard)
-	
-	#def clock_in_out(self, user, department):
-		
-		#self.user = user
-		#self.pay_rate = user.pay_rate
-		#self.department = department
-		
-		#print 'debug::: in_time'
-		#print self.in_time
+#	in_time = models.DateTimeField( null=True, blank=True )
 
-		#if self.in_time is not None and self.out_time is None:
-			#self.out_time = timezone.now()
-			#print 'oOOut_time:'
-			#print self.out_time
-			#self.save()
-			#return
-			
-		#if self.in_time is None and self.out_time is not None:
-			#print 'forgot to clock in!'
-			#return False
-			
-		#if self.in_time is None:
-			#self.in_time = timezone.now()
-			#print 'in time:'
-			#print self.in_time
-			#print 'out time'
-			#print self.out_time
-			#self.save()
-			#return
-	
-		#self.save()
-		#return 
 		
 	def clockIn(self, user, department):
-
-		if not self.in_time == None:
+		
+		self.user = user
+		self.is_out = user.is_out
+		
+		if self.is_out is True:
+			print "Error! is_out is True. User is already clocked out!"
 			return
-
+			
 		self.pay_rate = user.pay_rate
 		self.department = department
-		self.user = user
-		self.in_time = timezone.now()
+		self.in_time = user.in_time = timezone.now()
+		self.is_in = user.is_in = True
+		
+		print "self.in_time is..."
+		print self.in_time
+		
+		print "self.is_in is ..."
+		print self.is_in
+		
+		print "self.is_out is ..."
+		print self.is_out
+		
 		self.save()
-		return #self.in_time
+		return
 		
-		
+class ClockOut(models.Model):
+	user = models.ForeignKey(User)
+	department = models.ForeignKey(Department)
+	account = models.ForeignKey(Account, null=True, blank=True)
+
 	def clockOut(self, user, department):
 		
-		if not self.out_time is None and not self.in_time == None:
-			return 
-		
-		if self.in_time is None:
-			print 'Error!'
-			return False
-		
-		if self.in_time > self.out_time:
-			print 'error'
-			return False
-
 		self.user = user
+		self.is_in = user.is_in
+		self.is_out = user.is_out
+		self.in_time = user.in_time
+		self.out_time = user.out_time
+		
+		if not self.is_in is False:
+			print "Error! user is not clocked in, is_in is False"
+			return 
+			
+		if self.is_out is True:
+			print 'Error! is_out is true, user already clocked out'
+			return False
+			
+		if self.in_time > self.out_time:
+			print "Error! in_time is greater than out_time"
+			return False
+			
 		self.pay_rate = user.pay_rate
 		self.department = department
-		self.out_time = timezone.now()
-		#td = self.out_time - clockIn.in_time
-		#print td
-		#timecard = Timecard.objects.get(user = user)
-		#self.timecard = timecard #user.timecard_set[0].clockevent.set out_time != NULL
+		self.out_time = user.out_time = timezone.now()
+		self.is_out = user.is_out = True
+		
+		print "self.out_time is.."
+		print self.out_time
+		
+		print "self.is_out is ..."
+		print self.is_out
+		
+		print "self.is_in is..."
+		print self.is_in
+		
 		self.save()
 		return
 		
