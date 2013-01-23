@@ -1,7 +1,5 @@
 from django.db import models
-#from punchclock.models import UserAccount
-from punchclock.models import Account
-from punchclock.models import Department
+from punchclock.models import *
 
 
 #class UserAccountManagement(models.Model):

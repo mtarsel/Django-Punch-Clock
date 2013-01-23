@@ -5,6 +5,7 @@ from django.contrib import admin
 from django.conf.urls import patterns, include, url
 from django.forms import ModelForm
 from django.shortcuts import render_to_response
+from datetime import date,time
 
 class Account(models.Model):
 	name = models.CharField(max_length=512)
@@ -45,6 +46,7 @@ class User(models.Model):
 
 class Timecard(models.Model):
 	user = models.ForeignKey(User)
+	today = datetime.today()
 	
 	def generate_timecards(self):
 	# Create the HttpResponse object with the appropriate PDF headers.
@@ -59,7 +61,7 @@ class Timecard(models.Model):
 		p.setFont('Courier-Bold', 8.5)
  
 		p.drawString(215,778, 'Budgets charged')
-		p.drawString(215, 762, 'Example budget')#make the budget charged!!
+		p.drawString(215, 762, '%s') %(user.department)#make Account number!!
 		p.drawString(360, 778, 'Hours')
 		p.drawString(425, 778, 'Rate')
 		p.grid([210, 355, 420, 460], [730, 745, 760, 775, 790])
@@ -70,21 +72,25 @@ class Timecard(models.Model):
 		p.drawString(55,762,'For Clarkson Students')
 		p.drawString(95,750, 'use only')
 
-		#p.drawString(500,783, str(User.number))#make this the student numbers
+		p.drawString(500,783, '%s') %(user.number)#make this the student numbers
 		p.line(480,780,580,780)
 		p.drawString(500,773,'Student No.')#770-755
 
-		p.drawString(500, 753, '11-15-2012')#must be date
+		p.drawString(500, 753, '%s') %(today) #must be date
 		p.line(480,750,580,750)
 		p.drawString(480, 738, 'Month   Day   Year')
  
-		p.drawString(112, 708, 'Mick Tarsel')#user.firstname, user.lastname
+		p.drawString(112, 708, '%s %%s') %(user.first_name) %(user.last_name)#user.firstname, user.lastname
 		p.drawString(30,705,'Print name:')
 		p.line(92,705,250,705)
 	
-		p.drawString(395, 708, '10')#total hours
+		p.drawString(395, 708, '10')#TOTAL HOURS!!!
 		p.drawString(255,705,'Total Hours Worked:')
 		p.line(375,705,490,705)
+		
+		#FOR LOOP to start the dates properly.
+		
+		#Parse dates from Clockin and ClockOut to represent just the dates!!!
 	
 		p.grid([25, 60, 95, 130, 165, 200, 235, 270, 305, 340, 375, 410, 445], [655, 670, 685, 700])
 		p.drawString(33, 658, 'Sun')
