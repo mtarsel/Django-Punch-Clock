@@ -7,3 +7,4 @@ media/temp
 *.swp
 *.sqlite3
 *.kdev4
+*.directory
