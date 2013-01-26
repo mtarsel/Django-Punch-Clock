@@ -71,7 +71,7 @@ def timecards(request):
 	
 	# Create the HttpResponse object with the appropriate PDF headers.
 	response = HttpResponse(mimetype='application/pdf')
-	response['Content-Disposition'] = 'attachment; filename="%s_timecards.pdf"', %(user.last_name)
+	response['Content-Disposition'] = 'attachment; filename="timecards.pdf"'
 
 	buffer = BytesIO()
 	# Create the PDF object, using the BytesIO object as its "file."
