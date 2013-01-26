@@ -21,6 +21,12 @@ class Department(models.Model):
 	def __unicode__(self):
 		return unicode(self.name)
 
+#WANT TO GENERATE A TIMECARD FOR EACH USER
+
+	STATUS_CHOICES = (
+    ('g', 'Generate Timecard'),
+)
+
 class User(models.Model):
 	number = models.IntegerField(max_length=8)
 	first_name = models.CharField(max_length=512)
@@ -39,10 +45,16 @@ class User(models.Model):
 	def __unicode__(self):
 		return unicode(self.last_name) + ', ' + unicode(self.first_name) + ':' + unicode(self.number) + ' $' + unicode(self.pay_rate)
 		
-
-#class Timecard(models.Model):
+	#THE CODE BELOW WILL CREATE A TIMECARD PDF WITH THE USER FIELDS, MAKE THIS AN ADMIN ACTION SO ADMIN SELECTS WHICH USER (MAYBE ALL) 
+	#AND A TIMECARD IS CREATED
+		
+#class GenerateTimecard(models.Model):
 	#user = models.ForeignKey(User)
 	#today = datetime.today()
+	
+#	def __unicode__(self):
+#		return self.user
+	
 	
 	#def generate_timecards(self):
 	## Create the HttpResponse object with the appropriate PDF headers.
@@ -126,11 +138,6 @@ class User(models.Model):
 		#p.showPage()
 		#p.save()
 
-		## Get the value of the BytesIO buffer and write it to the response.
-		#pdf = buffer.getvalue()
-		#buffer.close()
-		#response.write(pdf)
-		#return response
 
 class ClockIn(models.Model):
 	user = models.ForeignKey(User)
