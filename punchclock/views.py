@@ -4,6 +4,19 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import render_to_response, redirect
 from punchclock.models import *
 from django.template import RequestContext
+from datetime import *
+
+
+from io import BytesIO
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.units import inch
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+
+
+#DONT FORGET:
+#sudo apt-get install python-pip
+#sudo pip install reportlab
 
 
 def clockIn( request ):
@@ -51,10 +64,14 @@ def clockOut(request):
 			to_add.update( csrf( request ) )
 			return render_to_response( '404.html', to_add )
 			
-def GenerateTimecards(request):
+def timecards(request):
+		
+	if not request.user.is_authenticated( ):#DOES NOT WORK, STILL ALLOWS USER ENTRY
+		return HttpResponseRedirect( '/admin/')
+	
 	# Create the HttpResponse object with the appropriate PDF headers.
 	response = HttpResponse(mimetype='application/pdf')
-	response['Content-Disposition'] = 'attachment; filename="timecards.pdf"'
+	response['Content-Disposition'] = 'attachment; filename="%s_timecards.pdf"', %(user.last_name)
 
 	buffer = BytesIO()
 	# Create the PDF object, using the BytesIO object as its "file."
@@ -79,7 +96,7 @@ def GenerateTimecards(request):
 	p.line(480,780,580,780)
 	p.drawString(500,773,'Student No.')#770-755
 
-	p.drawString(500, 753, '%s') %(today) #must be date
+	p.drawString(500, 753, '%s') %(datetime.today()) #must be date
 	p.line(480,750,580,750)
 	p.drawString(480, 738, 'Month   Day   Year')
  
