@@ -67,7 +67,7 @@ def clockOut(request):
 def timecards(request):
 		
 	if not request.user.is_authenticated( ):#DOES NOT WORK, STILL ALLOWS USER ENTRY
-		return HttpResponseRedirect( '/admin/')
+		return HttpResponseRedirect( '/admin/')	
 	
 	# Create the HttpResponse object with the appropriate PDF headers.
 	response = HttpResponse(mimetype='application/pdf')

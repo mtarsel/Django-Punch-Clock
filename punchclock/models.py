@@ -21,10 +21,8 @@ class Department(models.Model):
 	def __unicode__(self):
 		return unicode(self.name)
 
-#WANT TO GENERATE A TIMECARD FOR EACH USER
-
-	STATUS_CHOICES = (
-    ('g', 'Generate Timecard'),
+		STATUS_CHOICES = (
+	('g', 'Generate Timecard'),
 )
 
 class User(models.Model):
@@ -119,7 +117,7 @@ class ClockOut(models.Model):
 		
 		self.save()
 		return
-
+		
 class Timecard_Management(models.Model):
 	
 	user = models.ForeignKey(User)
