@@ -47,6 +47,9 @@ class User(models.Model):
 	#one_year = models.DateTimeField(default=start_date(start_date.year + 1))
 	#one_year = start_date.replace(year = start_date.year + 1)
 	
+	#one_year = date.today().replace(year = date.today().year + 1)
+	#TODO the example above works, pay rate will never increase. must make date.today = start_date
+	
 	#if ( one_year == date.today() ):
 	#	pay_rate = pay_rate + 0.25
 
