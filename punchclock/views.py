@@ -64,8 +64,22 @@ def clockOut(request):
 			to_add.update( csrf( request ) )
 			return render_to_response( '404.html', to_add )
 			
-def timecards(request):
-		
+
+
+def construct_timecards( request ):
+	 if not request.user.is_authenticated():
+			return HttpResponseRedirect('/admin/')
+	 timecards = [ ]
+	 ids = request.POST[ 'ids' ]
+	 for id in ids:
+		user = User.objects.get( id=id )
+		response = timecards( request, user )
+		timecards.append( request.GETPDF_FROM_RESPONSE )
+		return render_to_response( '/generate_timecards.html' )
+			
+			
+			
+def timecards(request, user ):
 	if not request.user.is_authenticated( ):#DOES NOT WORK, STILL ALLOWS USER ENTRY
 		return HttpResponseRedirect( '/admin/')	
 	

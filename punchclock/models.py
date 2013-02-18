@@ -9,7 +9,10 @@ class Account(models.Model):
 	name = models.CharField(max_length=512)
 	number = models.CharField(max_length=512)
 	priority = models.IntegerField()
-	total = models.IntegerField()		
+	total = models.IntegerField()	
+	class Meta:
+		ordering = ('priority',)
+		
 	
 	def __unicode__(self):
 		return unicode(self.name)
@@ -20,10 +23,6 @@ class Department(models.Model):
 	
 	def __unicode__(self):
 		return unicode(self.name)
-
-		STATUS_CHOICES = (
-	('g', 'Generate Timecard'),
-)
 
 class User(models.Model):
 	number = models.IntegerField(max_length=8)
@@ -38,8 +37,10 @@ class User(models.Model):
 	is_in = models.BooleanField(False)
 	out_time = models.DateField(null = True)
 	is_out = models.BooleanField(False)
-	#if they work for one year, increase pay by $0.25
 	
+	active = models.BooleanField(blank = True)
+	#if they work for one year, increase pay by $0.25
+		
 	def __unicode__(self):
 		return unicode(self.last_name) + ', ' + unicode(self.first_name) + ':' + unicode(self.number) + ' $' + unicode(self.pay_rate)
 
@@ -137,6 +138,8 @@ class Timecard_Management(models.Model):
 		return
 		
 	def payment(self, user):
+		
+		Account.objects.all().order_by('-priority')
 		
 		self.account = user.account.total
 		self.payed = user.pay_rate * Timecard_Management.user.clockedin_hours(user, department)
