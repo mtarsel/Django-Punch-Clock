@@ -10,6 +10,7 @@ class Account(models.Model):
 	number = models.CharField(max_length=512)
 	priority = models.IntegerField()
 	total = models.IntegerField()	
+	
 	class Meta:
 		ordering = ('priority',)
 		
@@ -29,7 +30,7 @@ class User(models.Model):
 	first_name = models.CharField(max_length=512)
 	last_name = models.CharField(max_length=512)
 	pay_rate = models.FloatField()
-	start_date = models.DateField()
+	start_date = models.DateField(default=datetime.now())
 	amount_paid = models.FloatField()
 	department = models.ForeignKey(Department)#user can have multiple departments
 	account = models.ForeignKey(Account)#can have multiple accounts
@@ -38,12 +39,20 @@ class User(models.Model):
 	out_time = models.DateField(null = True)
 	is_out = models.BooleanField(False)
 	
-	active = models.BooleanField(blank = True)
+	active = models.BooleanField(default = True)
 	#if they work for one year, increase pay by $0.25
-		
-	def __unicode__(self):
-		return unicode(self.last_name) + ', ' + unicode(self.first_name) + ':' + unicode(self.number) + ' $' + unicode(self.pay_rate)
+	
+	#one_year = start_date + timedelta(days = 365)
+	#one_year = models.DateTimeField(default=start_date + timedelta(days=365))
+	#one_year = models.DateTimeField(default=start_date(start_date.year + 1))
+	#one_year = start_date.replace(year = start_date.year + 1)
+	
+	#if ( one_year == date.today() ):
+	#	pay_rate = pay_rate + 0.25
 
+	def __unicode__(self):
+		return unicode(self.last_name) + ', ' + unicode(self.first_name) + ' : ' + unicode(self.number)
+		
 class ClockIn(models.Model):
 	user = models.ForeignKey(User)
 	department = models.ForeignKey(Department)
