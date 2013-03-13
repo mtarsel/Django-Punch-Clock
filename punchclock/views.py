@@ -32,8 +32,10 @@ def clockIn( request ):
 			
 		#	if clock_event.clock_in_out( user, department ) is False:
 		#		return render_to_response( '404.html')
+		
+			#print user.in_time
 
-			return render_to_response( 'punchclock/clockin.html', { 'first_name':user.first_name, 'last_name':user.last_name} )
+			return render_to_response( 'punchclock/clockin.html', { 'first_name':user.first_name, 'last_name':user.last_name, 'in_time':user.in_time} )
 		else:
 			to_add = { }
 			to_add.update( { 'form': form } )
@@ -56,29 +58,15 @@ def clockOut(request):
 			department = Department.objects.get( name=instance.department )
 			clock_out = ClockOut()
 			clock_out.clockOut( user, department )
-			return render_to_response( 'punchclock/clockout.html', {'first_name': user.first_name, 'last_name': user.last_name} )
+			return render_to_response( 'punchclock/clockout.html', {'first_name': user.first_name, 'last_name': user.last_name, 'out_time':user.out_time} )
 		else:
 			print 'Error! User didnt enter a field and hit clock out'
 			to_add = { }
 			to_add.update( { 'form': form } )
 			to_add.update( csrf( request ) )
 			return render_to_response( '404.html', to_add )
-			
 
 
-def construct_timecards( request ):
-	 if not request.user.is_authenticated():
-			return HttpResponseRedirect('/admin/')
-	 timecards = [ ]
-	 ids = request.POST[ 'ids' ]
-	 for id in ids:
-		user = User.objects.get( id=id )
-		response = timecards( request, user )
-		timecards.append( request.GETPDF_FROM_RESPONSE )
-		return render_to_response( '/generate_timecards.html' )
-			
-			
-			
 def timecards(request, user ):
 	if not request.user.is_authenticated( ):#DOES NOT WORK, STILL ALLOWS USER ENTRY
 		return HttpResponseRedirect( '/admin/')	

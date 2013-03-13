@@ -2,7 +2,15 @@
 
 
 {% block content %}
-<h2> {{first_name}} {{last_name}} clocked in! </h2>
+<h2> {{first_name}} {{last_name}} clocked in at {{in_time}} </h2>
+
+<script language="javascript"> 
+<!-- 
+today = new Date(); 
+document.write("<BR>The time now is: ", today.getHours(),":",today.getMinutes()); 
+document.write("<BR>The date is: ", today.getDate(),"/",today.getMonth()+1,"/",today.getYear()); 
+//--> 
+</script> 
 
   <a href = "/"> Go back </a>
 

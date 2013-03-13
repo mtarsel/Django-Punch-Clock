@@ -77,14 +77,14 @@ class ClockIn(models.Model):
 		self.in_time = user.in_time = datetime.now().replace(microsecond=0)
 		self.is_in = user.is_in = True
 		
-		print "self.in_time is..."
-		print self.in_time
+		#print "self.in_time is..."
+		#print self.in_time
 		
-		print "self.is_in is ..."
-		print self.is_in
+		#print "self.is_in is ..."
+		#print self.is_in
 		
-		print "self.is_out is ..."
-		print self.is_out
+		#print "self.is_out is ..."
+		#print self.is_out
 		
 		self.save()
 		return
@@ -119,14 +119,14 @@ class ClockOut(models.Model):
 		self.out_time = user.out_time = datetime.now().replace(microsecond=0)
 		self.is_out = user.is_out = True
 		
-		print "self.out_time is.."
-		print self.out_time
+		#print "self.out_time is.."
+		#print self.out_time
 		
-		print "self.is_out is ..."
-		print self.is_out
+		#print "self.is_out is ..."
+		#print self.is_out
 		
-		print "self.is_in is..."
-		print self.is_in
+		#print "self.is_in is..."
+		#print self.is_in
 		
 		self.save()
 		return
