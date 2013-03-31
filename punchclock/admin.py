@@ -33,4 +33,9 @@ class UserAdmin(admin.ModelAdmin):
 
 	actions = [generate_timecards]
 
+	#def change_hours( self, request, id):
+		#ids = request.POST.getlist('ids')
+		#for id in ids:
+			#user = User.objects.get( id=id )
+			
 admin.site.register(User, UserAdmin)

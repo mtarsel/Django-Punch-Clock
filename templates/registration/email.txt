@@ -1,0 +1,11 @@
+Dear Admin,
+
+You are receiving this email because a student worker has a low account balance.
+
+Student {{first_name}} {{last_name}} has an account balance of {{user_balance}}.
+
+Please attend to this issue immediatley or thiss student will not receive payment.
+
+
+Regards,
+ Web Design Administration

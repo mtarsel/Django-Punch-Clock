@@ -5,6 +5,9 @@ from django.forms import ModelForm
 from django.shortcuts import render_to_response
 from datetime import *
 
+from django.core.mail import send_mail
+
+
 class Account(models.Model):
 	name = models.CharField(max_length=512)
 	number = models.CharField(max_length=512)
@@ -42,7 +45,7 @@ class User(models.Model):
 	active = models.BooleanField(default = True)
 	#if they work for one year, increase pay by $0.25
 	
-	#one_year = start_date + timedelta(days = 365)
+	#one_year = models.DateField(default= start_date +timedelta(days=365))
 	#one_year = models.DateTimeField(default=start_date + timedelta(days=365))
 	#one_year = models.DateTimeField(default=start_date(start_date.year + 1))
 	#one_year = start_date.replace(year = start_date.year + 1)
@@ -161,8 +164,17 @@ class Timecard_Management(models.Model):
 			
 		elif user.account.total <= 100:
 			print "users account has less than $100. switch to next highest priority account"
+			
 			#email someone or make some sort of warning!
 			# go to next account. store accounts in list of variable size???
+			
+			t = loader.get_template('registration/email.txt')
+			c = Context({
+				'first_name': user.first_name,
+				'last_name': user.last_name,
+				'user_balance': user.account,
+			})
+			#TODO send_mail('Low Balance for Student Worker', t.render(c), 'myemail@gmail.com', ['mystudentemail@clarkson.edu'], fail_silently=False)
 		
 		return
 		
