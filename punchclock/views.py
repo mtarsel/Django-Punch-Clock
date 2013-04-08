@@ -14,6 +14,7 @@ from reportlab.lib.units import inch
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 
 #DONT FORGET:
+#sudo apt-get install python-dev
 #sudo apt-get install python-pip
 #sudo pip install reportlab
 
