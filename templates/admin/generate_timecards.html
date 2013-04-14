@@ -1,6 +1,22 @@
-{% load admin_static %}
 {% extends "admin/base_site.html" %}
+{% load i18n l10n %}
 
-Select dates to generate timecards
+{% block content%}
 
-<!--call timecards(request, user) view -->
+<form action="timecard" method="post">{% csrf_token %}
+    <p>Timecards will be generated for the following users:</p>
+
+    <ul>{{ queryset|unordered_list }}</ul>
+
+    <div>
+    {% for obj in queryset %}
+    <input type="hidden" name="{{ action_checkbox_name }}" value="{{ obj.pk|unlocalize }}" />
+    {% endfor %}
+
+   <input type="hidden" name="action" value="admin_action" />
+    <input type="hidden" name="post" value="yes" />
+    <input type="submit" value="{% trans "Yes, I'm sure" %}" />
+    </div>
+</form>
+
+{% endblock %}
