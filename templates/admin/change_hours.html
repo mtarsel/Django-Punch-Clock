@@ -1,0 +1,36 @@
+{% extends "admin/base_site.html" %}
+{% load i18n l10n %}
+
+{% block content%}
+<!-- <form action="" method="post">{% csrf_token %}
+
+    <p>The mail will be send to following users:</p>
+
+    <ul>{{ queryset | unordered_list }}</ul>
+
+    <input type="hidden" name="action" value="send_EMAIL" />
+    <input type="submit" name="apply" value="Send Email" />
+</form> -->
+
+
+<form action="" method="post">{% csrf_token %}
+    <p>Change hours for the following users:</p>
+
+    <ul>{{ queryset|unordered_list }}</ul>
+
+    <div>
+    {% for obj in queryset %}
+    <input type="hidden" name="{{ action_checkbox_name }}" value="{{
+obj.pk|unlocalize }}" />
+    {% endfor %}
+
+<!--    <button class="btn btn-large btn-primary" type="submit">Change</button>
+</br> -->
+   <input type="hidden" name="action" value="admin_action" />
+    <input type="hidden" name="post" value="yes" />
+    <input type="submit" value="{% trans "Yes, I'm sure" %}" />
+    </div>
+</form>
+
+{% endblock %}
+
