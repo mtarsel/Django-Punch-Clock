@@ -1,4 +1,4 @@
-TimeCardKnight
+LibClock (formly TimeCardKnight)
 ==============
 
 Basic punch clock written in Django
