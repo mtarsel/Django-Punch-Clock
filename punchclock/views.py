@@ -26,17 +26,10 @@ def clockin( request ):
                 if form.is_valid():
                         instance = form.save( commit=False )
                         user = User.objects.get( number=instance.student_number )
-                        #name = User.objects.get( name=instance.last_name )
                         department = Department.objects.get( name=instance.department )
-                        clock_in = ClockEvent()
-                        clock_in.clockIn( user, department )
-
-                #       if clock_event.clock_in_out( user, department ) is False:
-                #               return render_to_response( '404.html')
-
-                        #print user.in_time
-
-                        return render_to_response( 'punchclock/clockin.html', { 'first_name':user.first_name, 'last_name':user.last_name, 'in_time':user.in_time} )
+                        shift = ClockEvent()
+                        shift.clockIn(user, department)
+                        return render_to_response( 'punchclock/clockin.html', { 'first_name':user.first_name, 'last_name':user.last_name, 'in_time':shift.in_time} )
                 else:
                         to_add = { }
                         to_add.update( { 'form': form } )
@@ -57,15 +50,16 @@ def clockout(request):
                         instance = form.save( commit=False )
                         user = User.objects.get( number=instance.student_number )
                         department = Department.objects.get( name=instance.department )
-                        clock_out = ClockEvent()
-                        clock_out.clockOut( user, department )
-                        return render_to_response( 'punchclock/clockout.html', {'first_name': user.first_name, 'last_name': user.last_name, 'out_time':user.out_time} )
+                        shift = ClockEvent()
+                        shift.clockOut( user, department )
+                        return render_to_response( 'punchclock/clockout.html', {'first_name': user.first_name, 'last_name': user.last_name, 'out_time':shift.out_time} )
                 else:
                         print 'Error! User didnt enter a field and hit clock out'
                         to_add = { }
                         to_add.update( { 'form': form } )
                         to_add.update( csrf( request ) )
                         return render_to_response( '404.html', to_add )
+
 
 
 

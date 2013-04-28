@@ -37,10 +37,7 @@ class User(models.Model):
         amount_paid = models.FloatField()
         department = models.ForeignKey(Department)#user can have multiple departments
         account = models.ForeignKey(Account)#can have multiple accounts
-        in_time = models.TimeField()
-        is_in = models.BooleanField(False)
-        out_time = models.TimeField()
-        is_out = models.BooleanField(False)
+
         active = models.BooleanField(default = True)
 
 
@@ -60,52 +57,46 @@ class User(models.Model):
 
         def __unicode__(self):
                 return unicode(self.last_name) + ', ' + unicode(self.first_name) + ' : ' + unicode(self.number)
-
 class ClockEvent(models.Model):
+        in_time = models.DateTimeField()#cannot be NULL TODO
+        out_time = models.DateTimeField()
         user = models.ForeignKey(User)
-        department = models.ForeignKey(Department)
-        account = models.ForeignKey(Account, null=True, blank=True)
 
         def clockIn(self, user, department):
+                from django.db import connection
+                cursor = connection.cursor()
+
+
+                cursor.execute("""
+                    SELECT p.number, p.department_id
+                    FROM punchclock_user p, punchclock_clockevent c
+                    WHERE p.id = c.user_id
+                    AND c.in_time = CURTIME()
+                """)
+                #TODO - ask about MySQL validity
+
+
 
                 self.user = user
-                self.is_out = user.is_out
-
-                if self.is_out is True:
-                        print "Error! is_out is True. User is already clocked out!"
-                        return
 
                 self.pay_rate = user.pay_rate
                 self.department = department
                 self.in_time = user.in_time = datetime.now().replace(microsecond=0)
-                self.is_in = user.is_in = True
+
+                self.out_time = user.out_time = 0
 
                 print "self.in_time is..."
                 print self.in_time
 
-                print "self.is_in is ..."
-                print self.is_in
-
-                print "self.is_out is ..."
-                print self.is_out
-
                 self.save()
                 return
+
         def clockOut(self, user, department):
 
                 self.user = user
-                self.is_in = user.is_in
-                self.is_out = user.is_out
+                #self.is_in = user.is_in
                 self.in_time = user.in_time
                 self.out_time = user.out_time
-
-                if not self.is_in is False:
-                        print "Error! user is not clocked in, is_in is False"
-                        return
-
-                if self.is_out is True:
-                        print 'Error! is_out is true, user already clocked out'
-                        return False
 
                 if self.in_time > self.out_time:
                         print "Error! in_time is greater than out_time"
@@ -114,16 +105,9 @@ class ClockEvent(models.Model):
                 self.pay_rate = user.pay_rate
                 self.department = department
                 self.out_time = user.out_time = datetime.now().replace(microsecond=0)
-                self.is_out = user.is_out = True
 
                 print "self.out_time is.."
                 print self.out_time
-
-                print "self.is_out is ..."
-                print self.is_out
-
-                print "self.is_in is..."
-                print self.is_in
 
                 print "self.in_time is..."
                 print self.in_time
@@ -201,4 +185,3 @@ class Index( models.Model ):
 class IndexForm( ModelForm ):
         class Meta:
                 model = Index
-
