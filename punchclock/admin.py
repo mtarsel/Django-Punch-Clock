@@ -13,12 +13,12 @@ admin.site.register(Account)
 admin.site.register(Department)
 
 class UserAdmin(admin.ModelAdmin):
-        fields = ['first_name', 'last_name', 'number', 'pay_rate', 'start_date', 'amount_paid', 'department', 'account', 'active' ]
+        fields = ['first_name', 'last_name', 'number', 'start_date', 'amount_paid', 'department', 'account', 'active' ]
 
         def get_urls(self):
                 urls = super(UserAdmin, self).get_urls()
                 my_urls = patterns('',
-                        (r'^generate_timecards/$', self.admin_site.admin_view(self.generate_timecards)),
+                        #(r'^generate_timecards/$', self.admin_site.admin_view(self.generate_timecards)),
                         (r'^change_hours/$', self.admin_site.admin_view(self.change_hours))
                 )
                 return my_urls + urls
